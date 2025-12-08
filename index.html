@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <title>ColorView</title>
+    <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+    <!-- LOGO centered -->
+    <div class="logo-container">
+        <img src="logo.png" alt="ColorView Logo" class="logo">
+    </div>
+
+    <!-- Language Selector -->
+    <div class="lang-box">
+        <label id="langLabel">Language:</label>
+        <select id="language">
+            <option value="en">English</option>
+            <option value="ar">العربية</option>
+        </select>
+    </div>
+
+    <h1 id="title">Upload an Image</h1>
+
+    <!-- Upload -->
+    <input type="file" id="imageUpload" accept="image/*">
+
+    <br><br>
+
+    <img id="preview" style="max-width:400px; display:none; border:2px solid #000;">
+
+    <br><br>
+
+    <canvas id="canvas" style="display:none; border:2px solid #000;"></canvas>
+
+    <br><br>
+
+    <!-- Buttons -->
+    <button id="btnPro">Red‑Weak</button>
+    <button id="btnDeu">Green‑Weak</button>
+    <button id="btnTri">Blue‑Weak</button>
+    <button id="btnReset">Reset</button>
+
+    <script src="script.js"></script>
+</body>
+</html>

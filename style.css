@@ -1,0 +1,19 @@
+body {
+    text-align: center;
+    font-family: Arial, sans-serif;
+    background: #f5f8ff;
+    padding: 20px;
+}
+
+.logo-container {
+    margin-bottom: 20px;
+}
+
+.logo {
+    width: 200px;
+    height: auto;
+}
+
+.lang-box {
+    margin-bottom: 20px;
+}
