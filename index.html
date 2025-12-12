@@ -1,54 +1,194 @@
 <!DOCTYPE html>
-<html lang="en" data-theme="gold">
+<html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>ColorView</title>
-  <link rel="stylesheet" href="style.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ColorView Pro - Accessible Color Tool</title>
+    <link rel="stylesheet" href="style.css">
 </head>
+<body class="light-mode">
 
-<body>
-  <header class="header">
-    <div class="left">
-      <img id="logo" src="logo.png" class="logo" alt="ColorView Logo">
-      <h1 class="brand">ColorView</h1>
+    <svg style="height: 0; width: 0; position: absolute;">
+        <defs>
+            <filter id="mono">
+                <feColorMatrix type="matrix" values="0.333 0.333 0.333 0 0
+                                                    0.333 0.333 0.333 0 0
+                                                    0.333 0.333 0.333 0 0
+                                                    0     0     0     1 0" />
+            </filter>
+            <filter id="deutan">
+                <feColorMatrix type="matrix" values="0.625 0.375 0.000 0 0
+                                                    0.700 0.300 0.000 0 0
+                                                    0.000 0.300 0.700 0 0
+                                                    0     0     0     1 0" />
+            </filter>
+            <filter id="protan">
+                <feColorMatrix type="matrix" values="0.567 0.433 0.000 0 0
+                                                    0.558 0.442 0.000 0 0
+                                                    0.000 0.242 0.758 0 0
+                                                    0     0     0     1 0" />
+            </filter>
+            <filter id="tritan">
+                <feColorMatrix type="matrix" values="0.950 0.050 0.000 0 0
+                                                    0.000 0.433 0.567 0 0
+                                                    0.000 0.475 0.525 0 0
+                                                    0     0     0     1 0" />
+            </filter>
+        </defs>
+    </svg>
+
+    <header>
+        <div id="logo-container">
+            <img id="logo-image" src="logo.png" alt="ColorView Pro Logo">
+            <span id="logo-text">COLORVIEW PRO</span>
+        </div>
+        <button id="settings-btn">
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 18a6 6 0 1 0 0-12 6 6 0 0 0 0 12zm0-4a2 2 0 1 1 0-4 2 2 0 0 1 0 4zm7.98-6.16c-.03.43-.09.85-.18 1.25l1.66 1.28c.17.13.2.39.07.57l-1.6 2.76a.46.46 0 0 1-.58.14l-1.92-.73c-.5.42-1.05.77-1.65 1.05l-.32 2.05a.46.46 0 0 1-.45.42H9.36a.46.46 0 0 1-.45-.42l-.32-2.05a8.77 8.77 0 0 1-1.65-1.05l-1.92.73a.46.46 0 0 1-.58-.14L2.84 14.1a.46.46 0 0 1 .07-.57l1.66-1.28c-.09-.4-.15-.82-.18-1.25L3.8 9.5a.46.46 0 0 1 .45-.42h3.36c.03-.43.09-.85.18-1.25L7.13 6.55a.46.46 0 0 1 .57-.14l1.92.73c.5-.42 1.05-.77 1.65-1.05l.32-2.05c.02-.27.24-.48.51-.48h3.36c.27 0 .49.21.51.48l.32 2.05c.6.28 1.15.63 1.65 1.05l1.92-.73c.18-.07.39-.03.57.14l1.6 2.76c.14.18.1.44-.07.57l-1.66 1.28z"/></svg>
+        </button>
+    </header>
+
+    <div id="app-container">
+        <main id="main-content">
+            <h2 id="main-content-title">Color Picker & Values</h2>
+
+            <div id="color-preview-container">
+                <div id="current-color-preview">
+                    <img id="uploaded-image" src="" alt="Uploaded design preview" style="display:none;">
+                </div>
+                <div id="input-controls">
+                    <div class="input-group">
+                        <label for="hexInput">HEX</label>
+                        <input type="text" id="hexInput" maxlength="7" value="#3498DB">
+                    </div>
+                    <div class="input-group">
+                        <label for="rgbInput">RGB</label>
+                        <input type="text" id="rgbInput" value="52, 152, 219" readonly>
+                    </div>
+                    <div class="input-group">
+                        <label for="hslInput">HSL</label>
+                        <input type="text" id="hslInput" value="203, 63%, 53%" readonly>
+                    </div>
+
+                    <div class="input-group" style="padding: 0; border: none; background: none;">
+                        <input type="file" id="imageUpload" accept="image/*" style="display: none;">
+                        <button id="uploadBtn" style="flex-grow: 1; padding: 10px; background: var(--color-accent); color: white; border: none; border-radius: 4px; cursor: pointer;">
+                            Upload Image for Simulation
+                        </button>
+                        <button id="clearImageBtn" style="padding: 10px; background: var(--color-border); color: var(--color-text); border: none; border-radius: 4px; cursor: pointer; display: none;">
+                            Clear
+                        </button>
+                    </div>
+
+                </div>
+            </div>
+
+            <div id="colorblind-disclaimer">
+                <p id="disclaimer-text">For the best use of this feature, You should have someone with you who is not colorblind</p>
+                <div class="disclaimer-actions">
+                    <button id="disclaimer-ok-btn">Ok</button>
+                    <button id="disclaimer-never-btn">Never Show Again</button>
+                </div>
+            </div>
+
+
+            <h3 id="hsl-controls-title">HSL Controls</h3>
+            <div id="hsl-sliders">
+                <div class="slider-control">
+                    <label>H</label>
+                    <input type="range" id="hRange" min="0" max="360" value="203">
+                    <span class="slider-value" id="hValue">203</span>
+                </div>
+                <div class="slider-control">
+                    <label>S</label>
+                    <input type="range" id="sRange" min="0" max="100" value="63">
+                    <span class="slider-value" id="sValue">63%</span>
+                </div>
+                <div class="slider-control">
+                    <label>L</label>
+                    <input type="range" id="lRange" min="0" max="100" value="53">
+                    <span class="slider-value" id="lValue">53%</span>
+                </div>
+            </div>
+
+        </main>
+
+        <aside id="simulation-area">
+            <h2 id="simulation-area-title">Color Blindness View</h2>
+
+            <div id="colorblind-picker">
+                <p id="simulation-desc">Simulate for accessible design:</p>
+                <select id="colorblind-mode-select">
+                    <option value="none">No Simulation (Normal Vision)</option>
+                    <option value="deuteranopia">Deuteranopia (Common Red/Green)</option>
+                    <option value="protanopia">Protanopia (Red-Weak)</option>
+                    <option value="tritanopia">Tritanopia (Blue/Yellow)</option>
+                    <option value="achromatopsia">Achromatopsia (Monochrome)</option>
+                </select>
+            </div>
+
+            <div id="mode-info-box">
+                <h3 id="mode-info-title">No Simulation Selected</h3>
+                <ul id="mode-info-list">
+                    <li id="info-point-1">Select a color blindness mode above to learn about it.</li>
+                    <li id="info-point-2">The boxes below will show how your design looks in that mode.</li>
+                </ul>
+            </div>
+            <div class="simulation-box">
+                <h4 id="normal-vision-test">Normal Vision Test</h4>
+                <div class="simulation-content"></div>
+            </div>
+
+            <div class="simulation-box deuteranopia">
+                <h4 id="deuteranopia-test">Deuteranopia Test</h4>
+                <div class="simulation-content"></div>
+            </div>
+
+            <div class="simulation-box protanopia">
+                <h4 id="protanopia-test">Protanopia Test</h4>
+                <div class="simulation-content"></div>
+            </div>
+
+        </aside>
+
     </div>
 
-    <div class="right">
-      <select id="languageSelect">
-        <option value="en">English</option>
-        <option value="ar">العربية</option>
-      </select>
+    <footer id="main-footer">
+        <p id="single-line-footer">
+            ColorView Pro made by Ahmed Sameh and Nour Eldeen. | ColorView Pro © All rights reserved.
+        </p>
+    </footer>
 
-      <button id="themeToggle" class="ghost">Light Mode</button>
+    <div id="settings-drawer">
+        <h2 id="settings-h2">Settings</h2>
+
+        <div class="settings-option">
+            <h3 id="theme-h3">Theme</h3>
+            <div class="settings-controls">
+                <button id="lightModeBtn">Light Mode</button>
+                <button id="darkModeBtn">Dark Mode</button>
+            </div>
+        </div>
+
+        <div class="settings-option">
+            <h3 id="language-h3">Language</h3>
+            <div class="settings-controls">
+                <select id="languageSelect">
+                </select>
+            </div>
+            <p>Hello to everyone who opened this to know about us, We are 2 normal students, The first is one is Nour Eldeen and The second one is Ahmed Sameh, We have been thinking about making a project that can help the environment and the community, something that is genuinely rare to find, and no one still made it, We researched and found the perfect idea. Making a website to help color blind people, First we started by choosing which programming language will we choose and we found the perfect one and it was HTML because we were making a website so we are obviously going to choose it. We started coding with our knowledge and we researched and we kept reading articles on the diseases that color blind people face and what are the scientific names for every disease, then we started getting information about it, Then I kept thinking the whole time and such a good idea came in my mind, adding a color panel will make it even better. The fact that you can choose any color you want with HEX and RGB and HSL Sliders. You upload the image you have 2 useful things, If you are a person and you are trying to see what a color blind person sees that's helpful, It makes you be grateful for what you have and always thank god no matter what, Now the second useful thing and most important as a colorblind person we are trying to make you see the image that you choosed as close as possible as the original image. Not only that but we also added that you get to see the recent colors that you choosed the last time you logged in and you can select your favorite colors, It was such a hard progress to code all of this (Color Panel, Improving the UI for mobile users) so we used the help of chatgpt and gemini, They helped us improve our coding skills and English skills too. It's such an advantage for us and this era. We improved the ui and added english in the language, We also researched about the diseases like Tritanopia and Protanopia.. etc. Basically when you select the disease that you have in your eyes it gives you information about it. We also added a good UI for Mobile users, We added dark mode AKA gold mode. All of this was done in 5 days, But we stayed up and worked hard, woke up early. We even fought but we still understood eachother because teamwork and working hard is the key for success. I hope you like our project, More updates and features are coming soon.
+Yours
+Nour Eldeen & Ahmed Sameh.</p>
+        </div>
+
+        <div class="settings-option">
+            <h3 id="layout-h3">Display Layout</h3>
+            <div class="settings-controls">
+                <button id="pcLayoutBtn">PC Layout</button>
+                <button id="mobileLayoutBtn">Mobile Layout</button>
+            </div>
+        </div>
     </div>
-  </header>
 
-  <main class="main">
-    <p id="subtitle" class="subtitle">Upload an image and preview color‑vision filters</p>
-
-    <label class="upload-box" for="imageUpload">
-      <input id="imageUpload" type="file" accept="image/*">
-      <span class="upload-text">Choose Image</span>
-    </label>
-
-    <div class="preview-wrap">
-      <img id="preview" alt="Preview" style="display:none;">
-      <canvas id="canvas" style="display:none;"></canvas>
-    </div>
-
-    <div class="controls">
-      <button class="filter" data-filter="protanopia" id="btnPro">Red‑Weak</button>
-      <button class="filter" data-filter="deuteranopia" id="btnDeu">Green‑Weak</button>
-      <button class="filter" data-filter="tritanopia" id="btnTri">Blue‑Weak</button>
-      <button id="btnReset" class="ghost">Reset</button>
-    </div>
-  </main>
-
-  <footer class="footer">
-    <small>By Nour Eldeen & Ahmed Sameh — ColorView</small>
-  </footer>
-
-  <script src="script.js"></script>
+    <script src="script.js"></script>
 </body>
 </html>
